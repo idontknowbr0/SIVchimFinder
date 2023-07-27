@@ -1,14 +1,12 @@
-#!/usr/bin/env bash
-
-inputDir="/Users/scheng/Documents/grayT034"
-outputDir="/Volumes/Lab_Group/BoltonFCS/SophiaMykhaloR1R2/gray/grayT034output"
-sivDB="/Users/scheng/Documents/chimFinderStuff/SIVr239/siv239_reference"
-mmulDB="/Users/scheng/Documents/chimFinderStuff/mmulr/mmul10_reference"
-annotation="/Users/scheng/Downloads/chimFinder-master/data/MmulrefseqnoSIV.gff"
-threads=6
-macacaSplicing="/Users/scheng/Downloads/chimFinder-master/macacasplice.ss"
-trim_galore="/Users/scheng/Downloads/chimFinder-master/TrimGalore-0.6.10/trim_galore"
-fileoutputDir="/Volumes/Lab_Group/BoltonFCS/SophiaMykhaloR1R2/gray/grayExcelOutputs/T034"
+inputDir=""
+outputDir=""
+sivDB=""
+mmulDB=""
+annotation=""
+threads=
+macacaSplicing=""
+trim_galore=""
+chimericReadOutputDir=""
 
 mkdir -p ${outputDir}_R1
 mkdir -p ${outputDir}_R1/tmp
@@ -32,7 +30,6 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 	sample="${sampleR1%_R1*}"
 	sampleR2Base="${sampleR1%_R1*}"_R2"${sampleR1##*_R1}".fastq.gz
 	baseEnd="${sampleR1##*_R1}"
-	mkdir -p /Volumes/Lab_Group/BoltonFCS/SophiaMykhaloR1R2/gray/grayExcelOutputs/T034/${sample}
 
 		echo ANALYZING ${sample}
 		echo BEGIN DATE: ${date}
@@ -165,17 +162,17 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 		DUR="$(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds"
 		echo DONE IN ${DUR}
 		TOTAL_TIME=$((TOTAL_TIME + ${SECONDS}))
-
-		source activate my_project_env
+		mkdir -p ${chimericReadOutputDir}/${sample}
+		#source activate environment
 		SECONDS=0
-		echo CREATING REPORTS IN ${outputDir}/${sample}${baseEnd}
+		echo CREATING REPORTS IN ${chimericReadOutputDir}/${sample}${baseEnd}
 		./chimFinder.py --pathogenR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.siv.bowtie.sam \
 						--hostR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.mmul.bowtie.sam \
 						--pathogenR2 ${outputDir}_R2/tmp/alns/${sample}${baseEnd}.siv.bowtie.sam \
 						--hostR2 ${outputDir}_R2/tmp/alns/${sample}${baseEnd}.mmul.bowtie.sam \
 						--splicedR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.mmul.hisat.sam \
 						--splicedR2 ${outputDir}_R2/tmp/alns/${sample}${baseEnd}.mmul.hisat.sam \
-						-o ${fileoutputDir}/${sample}${baseEnd}/${sample} \
+						-o ${chimericReadOutputDir}/${sample}${baseEnd}/${sample} \
 						-t 12 \
 						--minLen 20 \
 						--maxLenUnmapped 30 \
@@ -190,5 +187,5 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 		echo DONE IN ${DUR}
 		TOTAL_TIME=$((TOTAL_TIME + ${SECONDS}))
 		SECONDS=0
-		conda deactivate
+		#conda deactivate
 done
