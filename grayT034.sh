@@ -165,7 +165,7 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 		mkdir -p ${chimericReadOutputDir}/${sample}
 		#source activate environment
 		SECONDS=0
-		echo CREATING REPORTS IN ${chimericReadOutputDir}/${sample}${baseEnd}
+		echo CREATING REPORTS IN ${chimericReadOutputDir}/${sample}${baseEnd}/${sample}
 		./chimFinder.py --pathogenR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.siv.bowtie.sam \
 						--hostR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.mmul.bowtie.sam \
 						--pathogenR2 ${outputDir}_R2/tmp/alns/${sample}${baseEnd}.siv.bowtie.sam \
