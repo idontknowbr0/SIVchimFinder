@@ -164,8 +164,8 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 		DUR="$(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds"
 		echo DONE IN ${DUR}
 		TOTAL_TIME=$((TOTAL_TIME + ${SECONDS}))
-
-		source activate my_project_env
+		#chmod +x chimFinder.py
+		#source activate chimFinder_env
 		SECONDS=0
 		echo CREATING REPORTS IN ${fileoutputDir}/${sample}${baseEnd}/${sample}
 		./chimFinder.py --pathogenR1 ${outputDir}_R1/tmp/alns/${sample}${baseEnd}.siv.bowtie.sam \
@@ -189,5 +189,5 @@ for file in "${inputDir}"/*R1*fastq.gz ; do
 		echo DONE IN ${DUR}
 		TOTAL_TIME=$((TOTAL_TIME + ${SECONDS}))
 		SECONDS=0
-		conda deactivate
+		#conda deactivate
 done
