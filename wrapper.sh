@@ -7,7 +7,7 @@ mmulDB="/path/to/macaca/mulatta/database"
 annotation="/path/to/annotation/file/.gtf"
 threads=6
 macacaSplicing="/path/to/splice/file/.ss"
-trim_galore="/path/to/trim_galore CMD"
+trim_galore="/path/to/trim_galore"
 fileoutputDir="/path/for/chimeric/sequences/Excel/output/folder"
 mkdir -p ${outputDir}_R1
 mkdir -p ${outputDir}_R1/tmp
